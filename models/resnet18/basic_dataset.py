@@ -25,7 +25,6 @@ class FullStutteringDataset(Dataset):
 
     def __getitem__(self, idx):
         sample = self.data.loc[idx]
-
         audio_path = Path(self.config.data_path) / str(sample.Show) / f'{str(sample.EpId)}' / f'{str(sample.Show)}_{str(sample.EpId)}_{str(sample.ClipId)}.wav'
 
         features = self.load_single_sample(audio_path)

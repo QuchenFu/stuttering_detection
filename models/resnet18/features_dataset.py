@@ -6,7 +6,7 @@ import pandas as pd
 import torch
 from torch.utils.data import Dataset
 
-from models.common.features import calculate_mfcc_features, calculate_chroma, calculate_spectrogram,\
+from features import calculate_mfcc_features, calculate_chroma, calculate_spectrogram,\
     calculate_mel_spectrogram
 
 
@@ -29,12 +29,12 @@ class FullStutteringDataset(Dataset):
         data = pd.read_csv(config.raw_csv_path)
         data = data.merge(self.folds_csv, on=['Show', 'EpId', 'ClipId']).reset_index(drop=True)
         self.data = data[data.fold.isin(self.folds)].reset_index(drop=True)
+        
 
     def __getitem__(self, idx):
         sample = self.data.loc[idx]
-
         audio_path = Path(self.config.data_path) / str(
-            sample.Show) / f'{str(sample.EpId):>03}' / f'{str(sample.Show)}_{str(sample.EpId):>03}_{str(sample.ClipId)}.wav'
+            sample.Show) / f'{str(sample.EpId)}' / f'{str(sample.Show)}_{str(sample.EpId)}_{str(sample.ClipId)}.wav'
 
         features = self.load_single_sample(audio_path)
 
@@ -52,7 +52,15 @@ class FullStutteringDataset(Dataset):
     def load_single_sample(self, audio_path):
         features = []
         y, sr = librosa.load(audio_path, sr=16000)
-
+        current_length = len(y)
+        target_length=48000
+        # Check if padding is needed
+        if current_length < target_length:
+            # Calculate the amount of padding needed
+            padding_length = target_length - current_length
+            
+            # Pad the audio with zeros at the end
+            y = np.pad(y, (0, padding_length), mode='constant')
         if self.config.features.mfcc:
             mfcc = calculate_mfcc_features(y, tabular=self.config.features.tabular_mfcc, sampling_rate=sr, n_mfcc=47,
                                            win_length=25)

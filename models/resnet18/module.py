@@ -6,7 +6,7 @@ from torch import nn
 from torch.nn import functional as F
 from torch.utils.data import DataLoader
 
-from models.utils.features_dataset import FullStutteringDataset
+from features_dataset import FullStutteringDataset
 
 
 class ResNet18(pl.LightningModule):
@@ -71,6 +71,7 @@ class ResNet18(pl.LightningModule):
                 'y_hat_labels': y_hat_labels, 'labels_y': y_labels}
 
     def validation_epoch_end(self, outputs):
+    # Your validation epoch end code here
         y_hat_binary = torch.cat([batch['y_hat_binary'] for batch in outputs])
         y_hat_labels = torch.cat([batch['y_hat_labels'] for batch in outputs])
         binary_y = torch.cat([batch['binary_y'] for batch in outputs])
