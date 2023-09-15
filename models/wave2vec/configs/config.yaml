@@ -5,20 +5,20 @@ model_name: Wave2Vec
 version: null
 
 learning_rate: 1e-5
-gpus: [0]
+# gpus: [0]
 
-run_path: # path where metrics and checkpoints will be saved
-raw_csv_path: # path to csv with sep-28k labels
-data_path: # path to directory with sep-28k dataset
-folds_csv: csv/sep28k/folds.csv
+run_path: C:\Users\quchenfu\Downloads # path where metrics and checkpoints will be saved
+raw_csv_path: C:\Users\quchenfu\Documents\stuttering_detection\csv\sep28k\SEP-28k_labels.csv # path to csv with sep-28k labels
+data_path: C:\Users\quchenfu\Downloads\SEP_28K_CLIP # path to directory with sep-28k dataset
+folds_csv: C:\Users\quchenfu\Documents\stuttering_detection\csv\sep28k\folds.csv
 
 test_folds: [0, 5]
 valid_folds: [8, 16]
 
-stutter_labels: ['Prolongation', 'Block', 'SoundRep', 'WordRep', 'Interjection']
+stutter_labels: ['Prolongation', 'Block', 'SoundRep', 'WordRep', 'Interjection', 'NoStutteredWords']
 
 batch_size: 32
-num_workers: 8
+num_workers: 16
 threshold: 0.5
 
 features:

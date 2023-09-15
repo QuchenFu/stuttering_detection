@@ -107,7 +107,7 @@ class ResNet18(pl.LightningModule):
 
         mean_f1 = [bin_f1]
         mean_acc = [bin_acc]
-        for i, label in zip(range(5), self.config.stutter_labels):
+        for i, label in zip(range(len(self.config.stutter_labels)), self.config.stutter_labels):
             lab_f1 = f1_score(labels_y[:, i], label_y_hat[:, i])
             lab_acc = accuracy_score(labels_y[:, i], label_y_hat[:, i])
             mean_f1.append(lab_f1)

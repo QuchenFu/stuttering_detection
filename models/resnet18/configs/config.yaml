@@ -7,10 +7,10 @@ version: 20
 learning_rate: 1e-6
 # gpus: [0]
 
-run_path: C:\Users\quchenfu\Downloads # path where metrics and checkpoints will be saved
-raw_csv_path: C:\Users\quchenfu\Downloads\stuttering_detection\csv\sep28k\SEP-28k_labels.csv # path to csv with sep-28k labels
-data_path: C:\Users\quchenfu\Downloads\SEP_28K_CLIP # path to directory with sep-28k dataset
-folds_csv: C:\Users\quchenfu\Downloads\stuttering_detection\csv\sep28k\folds.csv
+run_path: C:\Users\quchenfu\Documents # path where metrics and checkpoints will be saved
+raw_csv_path: C:\Users\quchenfu\Documents\stuttering_detection\csv\sep28k\SEP-28k_labels.csv # path to csv with sep-28k labels
+data_path: C:\Users\quchenfu\Documents\SEP_28K_CLIP # path to directory with sep-28k dataset
+folds_csv: C:\Users\quchenfu\Documents\stuttering_detection\csv\sep28k\folds.csv
 
 test_folds: [0, 5]
 valid_folds: [8, 16]
@@ -37,8 +37,8 @@ model:
     in_features: 256
     hidden_size: 64
 
-save_top_k: 3
+save_top_k: 10
 monitor_mode: max
 best_model_metric: Val_metrics/Mean_f1
-max_epoch: 80
+max_epoch: 50
 precision: 16

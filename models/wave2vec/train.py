@@ -6,11 +6,13 @@ from omegaconf import OmegaConf
 from pytorch_lightning import Trainer
 from pytorch_lightning.callbacks import ModelCheckpoint
 from pytorch_lightning.loggers import TensorBoardLogger
+import torch
+from module import Wave2Vec
+import torch.onnx
+import librosa
+import numpy as np
 
-from models.wave2vec.module import Wave2Vec
-
-
-@hydra.main(version_base=None, config_path='configs')
+@hydra.main(version_base=None, config_path="C:\\Users\\quchenfu\\Documents\\stuttering_detection\\models\\wave2vec\\configs", config_name='config')
 def train(config):
     model = Wave2Vec(config)
 
@@ -41,10 +43,10 @@ def train(config):
     trainer = Trainer(
         max_epochs=config.max_epoch,
         logger=[tb_logger],
-        gpus=list(config.gpus),
+        # gpus=list(config.gpus),
         enable_checkpointing=True,
         callbacks=[checkpoint_callback],
-        accelerator='gpu',
+        # accelerator='gpu',
     )
 
     os.makedirs(run_path, exist_ok=True)

@@ -7,7 +7,7 @@ from torch.utils.data import DataLoader
 from transformers import AutoFeatureExtractor
 from transformers import AutoModelForAudioClassification
 
-from models.utils.basic_dataset import FullStutteringDataset
+from basic_dataset import FullStutteringDataset
 
 
 class Wave2Vec(pl.LightningModule):
@@ -31,7 +31,7 @@ class Wave2Vec(pl.LightningModule):
 
         y_hat = self.forward(x)
         y_hat_binary = y_hat[:, -1]
-        y_hat_labels = y_hat[:, :5]
+        y_hat_labels = y_hat[:, :len(self.config.stutter_labels)]
 
         binary_loss = F.binary_cross_entropy_with_logits(y_hat_binary.squeeze(), binary_y)
 
@@ -91,7 +91,7 @@ class Wave2Vec(pl.LightningModule):
 
         mean_f1 = [bin_f1]
         mean_acc = [bin_acc]
-        for i, label in zip(range(5), self.config.stutter_labels):
+        for i, label in zip(range(len(self.config.stutter_labels)), self.config.stutter_labels):
             lab_f1 = f1_score(labels_y[:, i], label_y_hat[:, i])
             lab_acc = accuracy_score(labels_y[:, i], label_y_hat[:, i])
             mean_f1.append(lab_f1)
